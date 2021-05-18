@@ -2,6 +2,7 @@ from bcrypt import hashpw, checkpw, gensalt
 from hashlib import sha256, scrypt
 from base64 import b64encode, b64decode
 from secrets import token_bytes, compare_digest
+from itertools import islice
 
 
 def encrypt(string):
@@ -22,7 +23,7 @@ def encrypt(string):
     return hashpw(string256_b64, gensalt()).decode()
 
 
-def encrypt_s(string, n=16384, r=8, p=1, salt=token_bytes()):
+def encrypt_s(string, n=16384, r=8, p=1, salt=None):
     """Criptografa uma string com o algoritmo blowfish."""
     if not string or not isinstance(string, (str, bytes)):
         print(type(string))
@@ -31,6 +32,9 @@ def encrypt_s(string, n=16384, r=8, p=1, salt=token_bytes()):
     # Verifica se é uma string, se for tem que converter para bytes.
     if isinstance(string, str):
         string = string.encode()
+
+    if not salt:
+        salt = token_bytes()
 
     string256_b64 = b64encode(sha256(string).digest())
     hs = scrypt(string256_b64, salt=salt, n=int(n), r=int(r), p=int(p),
@@ -80,3 +84,8 @@ def processar_lista(user_list, fila):
             s.format(login=user.login, pwd=encrypt_s(user.pwd), plain=user.pwd)
         )
     return
+
+
+def slice_list(base, tamanho):
+    """Divide uma lista 'base' em n iterators com tamanho 'tamanho'"""
+    return iter(lambda: tuple(islice(base, tamanho)), ())

@@ -1,29 +1,26 @@
-from encoder import encrypt, check, processar_lista
+from encoder import processar_lista, slice_list
 from collections import namedtuple
-from itertools import islice
 from os import sched_getaffinity
 from threading import Thread
 from timeit import default_timer
 
 
-def open_file(limite=0):
+def open_file(filename, limite=0):
     """Abre o arquivo e particiona a lista para processamento paralelo."""
-    with open('base.txt', 'r') as f:
+    with open(filename, 'r') as f:
         if limite:
             tmp = f.read().splitlines()[:limite]
         else:
             tmp = f.read().splitlines()
         f.close()
 
-    user = namedtuple('User', ['login', 'pwd'])
-    base = map(user._make, (i.split('|')[1:3] for i in tmp))
+    user = namedtuple('User', ['login', 'pwd', 'hash'])
+    base = map(user._make, (i.split('|')[1:4] for i in tmp))
 
     if not limite:
         limite = len(tmp)
 
-    tamanho = limite//len(sched_getaffinity(0))
-
-    return (iter(lambda: tuple(islice(base, tamanho)), ()), limite)
+    return (base, limite)
 
 
 def processar_arquivo(file, tamanho):
@@ -38,15 +35,15 @@ def processar_arquivo(file, tamanho):
         item.start()
 
     last_print = 0
-    while True:
-        if not [item for item in threads if item.is_alive()]:
-            break
+    while [item for item in threads if item.is_alive()]:
+        # pass
         last_print = print_log(last_print, len(fila), tamanho)
 
     for item in threads:
         item.join()
 
     return fila
+
 
 def print_log(last, tam_fila, tam_file):
     """."""
@@ -60,12 +57,15 @@ def print_log(last, tam_fila, tam_file):
 
 if __name__ == '__main__':
     times = []
-    
-    # for i in range(100):
-    file, tamanho = open_file()
-    start = default_timer()
-    file_proc = processar_arquivo(file=file, tamanho=tamanho)
-    execucao = default_timer() - start
+    for i in range(30):
+        print('Rodada: {}'.format(i + 1))
+
+        base, tamanho_file = open_file('base.txt')
+        file = slice_list(base, (tamanho_file//len(sched_getaffinity(0))))
+
+        start = default_timer()
+        file_proc = processar_arquivo(file=file, tamanho=tamanho_file)
+        execucao = default_timer() - start
 
     times.append(execucao)
 
