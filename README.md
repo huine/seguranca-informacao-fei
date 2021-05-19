@@ -1,7 +1,9 @@
 # seguranca-informacao-fei
 Script para conversão das senhas gravadas no arquivo ``base.txt``.
 As senhas são criptografadas usando o algoritmo [Scrypt].
+
 O *paper* original pode ser encontrado aqui: [scrypt_paper]
+
 A página oficial do algoritmo pode ser encontrada aqui: [RFC7914]
 
 ## Requisitos
