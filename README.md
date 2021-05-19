@@ -40,6 +40,7 @@ Essa função gera o arquivo ``base-output.txt`` com a senha criptografada usand
 
 ### Validação
 Para realizar a conversão do arquivo de base, basta executar com o parâmetro ``-v``.
+
 O arquivo ``base-output.txt`` deve ter sido gerado com a flag ``-p`` no processo de conversão para que a validação funcione corretamente.
 ```Bash
 python orquestrador.py -v [-l Linhas, -r Repetições]
