@@ -136,12 +136,9 @@ def validar_user(user, pwd):
         raise Exception('Arquivo de output não foi gerado.')
 
     busca_base = filter(lambda x: x.login == user.strip(), base)
-    
+
     for login in busca_base:
         if login.hash:
             return check_s(pwd, login.hash) and 1 or 0
         return check_s(pwd, login.pwd) and 1 or 0
     return -1
-
-
-

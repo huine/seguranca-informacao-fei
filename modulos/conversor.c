@@ -5617,7 +5617,6 @@ static PyObject *__pyx_pf_9conversor_12validar_user(CYTHON_UNUSED PyObject *__py
  *             return check_s(pwd, login.hash) and 1 or 0
  *         return check_s(pwd, login.pwd) and 1 or 0             # <<<<<<<<<<<<<<
  *     return -1
- * 
  */
     __Pyx_XDECREF(__pyx_r);
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_check_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
@@ -5710,8 +5709,6 @@ static PyObject *__pyx_pf_9conversor_12validar_user(CYTHON_UNUSED PyObject *__py
  *             return check_s(pwd, login.hash) and 1 or 0
  *         return check_s(pwd, login.pwd) and 1 or 0
  *     return -1             # <<<<<<<<<<<<<<
- * 
- * 
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_int_neg_1);
