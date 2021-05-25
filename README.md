@@ -52,6 +52,21 @@ Outros parâmetros disponíveis na conversão são:
 ```
 Caso alguma senha falhe na validação, acontecerá uma exceção no processo e a validação será interrompida com um erro.
 
+### Validar apenas um usuário
+Para realizar a validação de um usuário qualquer na base, basta passar os parâmetro ``-u`` e ``-pwd``.
+Onde ``-u`` é o usuário na base e ``-pwd`` é a senha a ser testada no usuário.
+
+O arquivo ``base-output.txt`` deve ter sido gerado, caso ainda não tenha feito esse processo, acontecerá uma excessão.
+
+```Bash
+python orquestrador.py -u USER -pwd PASSWORD
+```
+Outros parâmetros disponíveis na conversão são:
+```
+[-u , --user] STRING -> Usuário a ser buscado na base.
+[-pwd, --password] STRING -> Senha do usuário em plain text para validar se o usuário e senha estão corretos.
+```
+
 [rfc7914]: https://datatracker.ietf.org/doc/html/rfc7914 "RFC7914"
 [scrypt_paper]: https://www.tarsnap.com/scrypt/scrypt.pdf "Scrypt Paper"
 [scrypt]: https://www.tarsnap.com/scrypt.html "Scrypt"

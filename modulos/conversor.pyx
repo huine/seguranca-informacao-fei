@@ -1,4 +1,4 @@
-from . encoder import processar_lista, slice_list, processar_validacao
+from . encoder import processar_lista, slice_list, processar_validacao, check_s
 from collections import namedtuple
 from os import sched_getaffinity
 from threading import Thread
@@ -108,6 +108,7 @@ def converter(limite=0, plain=False, n=1):
 
 
 def testar(limite=0, n=1):
+    """."""
     times = []
     base_path = os.path.abspath(os.path.dirname(__file__)) +\
         '/../base-output.txt'
@@ -123,3 +124,24 @@ def testar(limite=0, n=1):
         times.append(execucao)
 
     print("Tempo de execução: %.10f s" % (sum(times)/len(times)))
+
+
+def validar_user(user, pwd):
+    """."""
+    base_path = os.path.abspath(os.path.dirname(__file__)) +\
+        '/../base-output.txt'
+    base, tamanho_file = open_file(base_path)
+
+    if not tamanho_file:
+        raise Exception('Arquivo de output não foi gerado.')
+
+    busca_base = filter(lambda x: x.login == user.strip(), base)
+    
+    for login in busca_base:
+        if login.hash:
+            return check_s(pwd, login.hash) and 1 or 0
+        return check_s(pwd, login.pwd) and 1 or 0
+    return -1
+
+
+

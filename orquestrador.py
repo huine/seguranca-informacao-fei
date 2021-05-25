@@ -27,6 +27,14 @@ parser.add_argument(
     '-r', '--repeticoes', type=int, default=1,
     help="Número de vezes que a conversão/validação devem rodar.")
 
+parser.add_argument(
+    '-u', '--user', type=str, default='',
+    help="Usuário a ter a senha validada.")
+
+parser.add_argument(
+    '-pwd', '--password', type=str, default='',
+    help="Senha do usuário à validar.")
+
 if len(sys.argv) == 1:
     parser.print_help()
     sys.exit(1)
@@ -38,5 +46,13 @@ if __name__ == '__main__':
         conv.converter(args.limite, args.plain, args.repeticoes)
     elif args.validar:
         conv.testar(args.limite, args.repeticoes)
+    elif args.user and args.password:
+        check = conv.validar_user(args.user, args.password)
+        if check ==  1:
+            print("Login e senha válido")
+        elif check == 0:
+            print("Senha invalida")
+        else:
+            print("Login não encontrado")
     else:
         parser.print_help()
